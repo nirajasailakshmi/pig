@@ -1,0 +1,13 @@
+txns1 = LOAD '/home/hduser/txns1.txt' USING PigStorage(',') AS (txnid,date,custid,amount:double,category,product,city,state,spentmethod);
+dump txns1;
+groupbyspentmethod = group txns1 by spentmethod;
+dump groupbyspentmethod;
+totalbytype = foreach groupbyspentmethod generate group, ROUND_TO(SUM(txns1.amount),2) as typesales;
+dump totalbytype;
+totalgroup =group totalbytype all;
+dump totalgroup;
+describe totalgroup;
+totalsales = foreach totalgroup generate group, SUM(totalbytype.typesales) as totalamt;
+dump totalsales;
+final = foreach totalbytype generate $0,$1,ROUND_TO((($1*100)/totalsales.totalamt),2);
+dump final;

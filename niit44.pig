@@ -1,0 +1,1 @@
+data2000= load '/home/hduser/pigproject/2000.txt' using PIgStorage(',') as (catid,catname,jan:double,feb:double,mar:double,apr:double,may:double,jun:double,jul:double,aug:double,sep:double,oct:double,nov:double,dec:double);
